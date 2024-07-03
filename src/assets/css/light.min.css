@@ -1,0 +1,52 @@
+.dark-mode h1,
+.dark-mode h2,
+.dark-mode h3 {
+    color: #383a42 !important;
+}
+
+
+.light-mode .el-container {
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1) !important;
+    border: 1px solid #ebeef5 !important;
+}
+
+.light-mode .el-button--theme:active, .light-mode .el-button--theme:focus, .light-mode .el-button--theme:hover {
+    color: #000 !important;
+    background-color: #fff !important;
+}
+
+.light-mode #sunny, .light-mode .channel, #canvas-show {
+    display: none
+}
+
+.light-mode .el-divider {
+    background: rgba(0, 0, 0, .2) !important
+}
+
+.light-mode .el-divider__text {
+    border: 1px solid rgba(0, 0, 0, .4);
+    border-radius: 3px
+}
+
+.light-mode #canvas-show {
+    display: inline !important
+}
+
+.light-mode .canvas-wrap {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0
+}
+
+.light-mode .el-row span .el-button {
+    background: 0 0 !important;
+    border: 1px solid #000 !important;
+    color: #000 !important
+}
+
+.light-mode .el-row span .el-button:focus, .light-mode .el-row span .el-button:hover {
+    color: #fff !important;
+    background: rgba(0, 0, 0, .88) !important
+}

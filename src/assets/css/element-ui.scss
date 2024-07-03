@@ -1,0 +1,35 @@
+// cover some element-ui styles
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+}
+
+.el-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.el-footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.875em;
+}
+
+.el-divider__text {
+    padding: 0 !important
+}
+
+.el-button--theme {
+    font-size: 14px !important;
+    border: 0 !important;
+    width: 54px !important;
+    padding: 0 0 !important
+}
+
+#canvas-show {
+    display: none;
+}

@@ -1,0 +1,105 @@
+.dark-mode pre code.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 1em
+}
+.dark-mode code.hljs {
+  padding: 3px 5px
+}
+/*
+
+Atom One Dark With support for ReasonML by Gidi Morris, based off work by Daniel Gamage
+
+Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
+
+*/
+.dark-mode .hljs {
+  color: #abb2bf;
+  background: #282c34
+}
+.dark-mode .hljs-keyword,
+.dark-mode .hljs-operator {
+  color: #F92672
+}
+.dark-mode .hljs-pattern-match {
+  color: #F92672
+}
+.dark-mode .hljs-pattern-match .hljs-constructor {
+  color: #61aeee
+}
+.dark-mode .hljs-function {
+  color: #61aeee
+}
+.dark-mode .hljs-function .hljs-params {
+  color: #A6E22E
+}
+.dark-mode .hljs-function .hljs-params .hljs-typing {
+  color: #FD971F
+}
+.dark-mode .hljs-module-access .hljs-module {
+  color: #7e57c2
+}
+.dark-mode .hljs-constructor {
+  color: #e2b93d
+}
+.dark-mode .hljs-constructor .hljs-string {
+  color: #9CCC65
+}
+.dark-mode .hljs-comment,
+.dark-mode .hljs-quote {
+  color: #b18eb1;
+  font-style: italic
+}
+.dark-mode .hljs-doctag,
+.dark-mode .hljs-formula {
+  color: #c678dd
+}
+.dark-mode .hljs-section,
+.dark-mode .hljs-name,
+.dark-mode .hljs-selector-tag,
+.dark-mode .hljs-deletion,
+.dark-mode .hljs-subst {
+  color: #e06c75
+}
+.dark-mode .hljs-literal {
+  color: #56b6c2
+}
+.dark-mode .hljs-string,
+.dark-mode .hljs-regexp,
+.dark-mode .hljs-addition,
+.dark-mode .hljs-attribute,
+.dark-mode .hljs-meta .hljs-string {
+  color: #98c379
+}
+.dark-mode .hljs-built_in,
+.dark-mode .hljs-title.class_,
+.dark-mode .hljs-class .hljs-title {
+  color: #e6c07b
+}
+.dark-mode .hljs-attr,
+.dark-mode .hljs-variable,
+.dark-mode .hljs-template-variable,
+.dark-mode .hljs-type,
+.dark-mode .hljs-selector-class,
+.dark-mode .hljs-selector-attr,
+.dark-mode .hljs-selector-pseudo,
+.dark-mode .hljs-number {
+  color: #d19a66
+}
+.dark-mode .hljs-symbol,
+.dark-mode .hljs-bullet,
+.dark-mode .hljs-link,
+.dark-mode .hljs-meta,
+.dark-mode .hljs-selector-id,
+.dark-mode .hljs-title {
+  color: #61aeee
+}
+.dark-mode .hljs-emphasis {
+  font-style: italic
+}
+.dark-mode .hljs-strong {
+  font-weight: bold
+}
+.dark-mode .hljs-link {
+  text-decoration: underline
+}

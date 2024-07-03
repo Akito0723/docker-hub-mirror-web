@@ -1,0 +1,47 @@
+.dark-mode {
+    color: #ece6ec;
+    background: #242424;
+}
+.dark-mode .el-container {
+    background: rgba(20, 19, 19, 0.8) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+
+.dark-mode h1,
+.dark-mode h2,
+.dark-mode h3 {
+    color: #ece6ec !important;
+}
+
+.dark-mode .el-button--theme {
+    color: #fff !important;
+    background-color: #000 !important;
+}
+
+.dark-mode .el-button--theme:active, .dark-mode .el-button--theme:focus, .dark-mode .el-button--theme:hover {
+    color: #fff !important;
+}
+
+.dark-mode #moon{
+    display: none !important;
+}
+
+.dark-mode .el-divider {
+    background: rgba(255, 255, 255, .5) !important;
+}
+
+.dark-mode .el-divider__text {
+    background-color: #000 !important;
+    color: #fff !important;
+}
+
+.dark-mode .el-button {
+    border-color: #303133 !important;
+    background-color: #858585 !important;
+    color: #fff !important;
+}
+
+.dark-mode .el-button:focus, .dark-mode .el-button:hover {
+    color: #409eff !important;
+}
