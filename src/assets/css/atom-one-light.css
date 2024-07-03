@@ -26,8 +26,9 @@ hue-6-2: #c18401
 
 */
 .light-mode .hljs {
-  color: #383a42;
-  background: #fafafa
+  color: #f8f8f2;
+  background: rgb(28, 144, 237);
+  border-radius: 5px
 }
 .light-mode .hljs-comment,
 .light-mode .hljs-quote {

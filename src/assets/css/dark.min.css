@@ -36,12 +36,12 @@
     color: #fff !important;
 }
 
-.dark-mode .el-button {
+.dark-mode .copy-btn  {
     border-color: #303133 !important;
     background-color: #858585 !important;
     color: #fff !important;
 }
 
-.dark-mode .el-button:focus, .dark-mode .el-button:hover {
+.dark-mode .copy-btn:focus, .dark-mode .copy-btn:hover {
     color: #409eff !important;
 }

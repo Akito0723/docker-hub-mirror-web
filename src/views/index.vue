@@ -2,7 +2,7 @@
   <el-row>
     <el-container>
       <el-row>
-        <svg-icon class="gayhub" icon-class="github" style="float:left;color: inherit;" @click="goToProject"/>
+        <svg-icon icon-class="github" style="float:left;color: inherit;" @click="goToProject"/>
       </el-row>
       <el-header>
         <el-row type="flex" justify="center">
@@ -117,7 +117,6 @@
 </template>
 <script>
 let script;
-const title = process.env.VUE_APP_TITLE
 const project = process.env.VUE_APP_PROJECT
 const url = process.env.VUE_APP_DOMAIN
 const domain = url.replace(/^http:\/\/|https:\/\//, '');
@@ -132,7 +131,7 @@ export default {
       // 是否为 PC 端
       isPC: true,
       code1: 'sudo mkdir -p /etc/docker',
-      code2: `sudo tee /etc/docker/daemon.json >>EOF
+      code2: `sudo tee /etc/docker/daemon.json <<EOF
 {
     "registry-mirrors": ["${url}"]
 }
@@ -149,7 +148,6 @@ docker rmi ${domain}/library/mysql:5.7`,
     };
   },
   created() {
-    document.title = title;
     this.isPC = this.$getOS().isPc;
   },
   // busuanzi监听
@@ -238,13 +236,12 @@ docker rmi ${domain}/library/mysql:5.7`,
     },
     getHealth() {
       let that = this;
-      this.$axios.get("/v2")
+      this.$axios.get("/v2/")
           .catch(function (error) {
             let api_version = error.response.headers['docker-distribution-api-version']
             let code = error.response.status
             if (api_version === 'registry/2.0' && code === 401) {
               that.health_status = 'check-success'
-              console.log(error.duration)
               that.health_delay = error.duration + '';
               that.health_svg_color = 'color: #67c23a; height: 100%;'
             } else {
@@ -289,5 +286,6 @@ p {
   right: 1em;
   top: 2em;
   display: none;
+  border-radius: 5px;
 }
 </style>

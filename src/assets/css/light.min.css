@@ -40,13 +40,13 @@
     top: 0
 }
 
-.light-mode .el-row span .el-button {
+.light-mode .copy-btn {
     background: 0 0 !important;
     border: 1px solid #000 !important;
     color: #000 !important
 }
 
-.light-mode .el-row span .el-button:focus, .light-mode .el-row span .el-button:hover {
+.light-mode .copy-btn:focus, .light-mode .copy-btn:hover {
     color: #fff !important;
     background: rgba(0, 0, 0, .88) !important
 }
