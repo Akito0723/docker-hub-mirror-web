@@ -1,6 +1,5 @@
 {
   "name": "docker-hub-mirror-web",
-  "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",

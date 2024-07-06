@@ -1,0 +1,85 @@
+# 自动部署的名称 
+name: Auto Release And Publish Website 
+on:
+  - workflow_dispatch
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    # 运行环境，告诉它运行在什么环境
+    runs-on: ubuntu-latest 
+    steps:
+      # Checkout代码
+      - name: Checkout
+        uses: actions/checkout@main
+
+      # 获取next version
+      - name: Get next version
+        uses: reecetech/version-increment@2024.4.4
+        id: next-latest-release
+        with:
+          scheme: calver
+
+      # 打包
+      - name: Build
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.20.0
+          cache: 'yarn'
+
+
+      - run: | 
+          yarn install
+          yarn build
+        # run: tar --exclude='.*' --exclude='*.txt' -czvf release-${{ steps.next-latest-release.outputs.v-version }}.tgz *
+
+
+      # 发布 Release
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          # 是否是草稿
+          draft: false
+          # 是否是预发布
+          prerelease: false
+          tag_name: ${{ steps.next-latest-release.outputs.v-version }}
+          name: Release ${{ steps.next-latest-release.outputs.v-version }}
+          token: ${{ secrets.RELEASE_TOKEN }}
+          # 要上传的文件
+          files: ./release-${{ steps.next-latest-release.outputs.v-version }}.tgz
+
+      # 拷贝release到服务器
+      - name: scp Deploy
+        uses: appleboy/scp-action@master
+        with:
+          # 配置的服务器地址
+          host: ${{ secrets.SSH_HOST }}
+          # 配置的服务器用户名
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          source: "./release-${{ steps.next-latest-release.outputs.v-version }}.tgz"
+          target: "/var/www/home"
+
+      # 解压文件
+      - name: ssh Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          # 配置的服务器地址
+          host: ${{ secrets.SSH_HOST }}
+          # 配置的服务器用户名
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd /var/www/home
+            mkdir -p dist
+            rm -f release.tgz
+            mv release-${{ steps.next-latest-release.outputs.v-version }}.tgz release.tgz
+            rm -rf dist/*
+            tar -xzf release.tgz -C dist/
+
+

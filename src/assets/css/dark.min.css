@@ -10,7 +10,9 @@
 
 .dark-mode h1,
 .dark-mode h2,
-.dark-mode h3 {
+.dark-mode h3,
+.dark-mode p,
+.dark-mode span{
     color: #ece6ec !important;
 }
 

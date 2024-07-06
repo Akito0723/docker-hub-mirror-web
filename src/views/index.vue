@@ -42,7 +42,7 @@
       </el-header>
       <el-main>
         <el-row>
-          <h3>为了加速镜像拉取，使用以下命令设置<b>registry mirror</b></h3>
+          <h3>为了加速镜像拉取，使用以下命令设置 <b>registry mirror</b></h3>
           <el-row class="pre-wrapper">
             <highlightjs autodetect :code="code1" />
             <el-button
@@ -79,6 +79,7 @@
                 icon="el-icon-document-copy"
             >复制</el-button>
           </el-row>
+          <h3>不用设置环境也可以直接使用，用法示例（根据实际需要替换对应的镜像）：</h3>
           <el-row class="pre-wrapper">
             <highlightjs autodetect :code="code5"/>
             <el-button
@@ -88,22 +89,12 @@
                 icon="el-icon-document-copy"
             >复制</el-button>
           </el-row>
-          <h3>不用设置环境也可以直接使用，用法示例（根据实际需要替换对应的镜像）：</h3>
-          <el-row class="pre-wrapper">
-            <highlightjs autodetect :code="code6"/>
-            <el-button
-                class="copy-btn"
-                v-clipboard:copy="code6"
-                v-clipboard:success="onCopy"
-                icon="el-icon-document-copy"
-            >复制</el-button>
-          </el-row>
-          <p>说明：library是一个特殊的命名空间，它代表的是官方镜像。</p>
+          <p>说明：library是一个特殊的命名空间，它代表的是官方镜像。如果是某个用户的镜像就把library替换为镜像的用户名。</p>
         </el-row>
       </el-main>
       <el-footer>
         <el-row justify="center">
-          &copy; 自建站点，请勿滥用。
+          <span>&copy; 自建站点，请勿滥用。</span>
         </el-row>
         <el-row justify="center">
           <div class="busuanzi">
@@ -111,6 +102,7 @@
             <span id="busuanzi_container_site_uv">总访客数<span id="busuanzi_value_site_uv"></span>人</span>
           </div>
         </el-row>
+        <span id="cf"></span>
       </el-footer>
     </el-container>
   </el-row>
@@ -119,7 +111,7 @@
 let script;
 const project = process.env.VUE_APP_PROJECT
 const url = process.env.VUE_APP_DOMAIN
-const domain = url.replace(/^http:\/\/|https:\/\//, '');
+const domain = process.env.VUE_APP_DOMAIN.replace(/^http:\/\/|https:\/\//, '');
 
 export default {
   data() {
@@ -130,16 +122,19 @@ export default {
       health_svg_color: 'color: #f56c6c; height: 100%;',
       // 是否为 PC 端
       isPC: true,
-      code1: 'sudo mkdir -p /etc/docker',
-      code2: `sudo tee /etc/docker/daemon.json <<EOF
+      code1: `# 创建docker配置文件目录
+sudo mkdir -p /etc/docker`,
+      code2: `# 添加本站代理到docker配置文件
+sudo tee /etc/docker/daemon.json <<EOF
 {
     "registry-mirrors": ["${url}"]
 }
 EOF`,
-      code3: 'sudo systemctl daemon-reload',
-      code4: 'sudo systemctl restart docker',
-      code5: 'sudo systemctl restart docker',
-      code6: `# 拉取镜像
+      code3: `# 重新加载systemd程序的配置文件
+sudo systemctl daemon-reload`,
+      code4: `# 重启docker以生效
+sudo systemctl restart docker`,
+      code5: `# 拉取镜像
 docker pull ${domain}/library/mysql:5.7
 # 重命名镜像
 docker image tag ${domain}/library/mysql:5.7 library/mysql:5.7
@@ -165,6 +160,8 @@ docker rmi ${domain}/library/mysql:5.7`,
     this.getHealth();
     // 获取VPS信息
     this.getVPSInfo();
+    // 获取Cloudflare节点信息
+    this.getCFInfo();
     // 处理主题
     this.processTheme();
   },
@@ -211,6 +208,7 @@ docker rmi ${domain}/library/mysql:5.7`,
       window.open(project);
     },
     getVPSInfo() {
+      let that = this;
       this.$axios.post("/api/client/info")
           .then(res => {
             if (res.data) {
@@ -228,10 +226,31 @@ docker rmi ${domain}/library/mysql:5.7`,
               const leftTraffic = this.formatBytes(total - used);
               this.VPSInfo = `已使用：${usedTraffic}，剩余流量：${leftTraffic}`
             }
-
           })
           .catch(function (error) {
-            this.VPSInfo = '获取VPS信息失败';
+            that.VPSInfo = '获取VPS信息失败';
+          });
+    },
+    getCFInfo() {
+      this.$axios.post("/cdn-cgi/trace")
+          .then(res => {
+            if (res.data) {
+              const lines = res.data.split('\n');
+              const info = {};
+              lines.forEach(line => {
+                const parts = line.split('=');
+                if (parts.length === 2) {
+                  info[parts[0]] = parts[1];
+                }
+              });
+              const cfElement = document.getElementById('cf');
+              const displayText = info.loc + " " + info.ip + " | " + info.colo + " | " + info.http +
+                  " | " + info.visit_scheme + " | " + info.tls + " | " + info.kex;
+              cfElement.textContent = displayText;
+            }
+          })
+          .catch(function (error) {
+            console.error('获取Cloudflare节点信息失败: ', error);
           });
     },
     getHealth() {
@@ -272,6 +291,7 @@ h2 {
 }
 p {
   margin-bottom: 1em;
+  font-style: italic;
 }
 .el-col {
   height: 100%;

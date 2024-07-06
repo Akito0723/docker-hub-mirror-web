@@ -1,10 +1,10 @@
 .dark-mode pre code.hljs {
   display: block;
   overflow-x: auto;
-  padding: 1em
+  padding: 1em;
 }
 .dark-mode code.hljs {
-  padding: 3px 5px
+  padding: 3px 5px;
 }
 /*
 
@@ -14,9 +14,11 @@ Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
 
 */
 .dark-mode .hljs {
-  color: #abb2bf;
+  color: #f8f8f2;
   background: #282c34;
-  border-radius: 5px
+  border-radius: 5px;
+  font-size: 0.875em;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace；
 }
 .dark-mode .hljs-keyword,
 .dark-mode .hljs-operator {

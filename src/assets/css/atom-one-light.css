@@ -28,7 +28,9 @@ hue-6-2: #c18401
 .light-mode .hljs {
   color: #f8f8f2;
   background: rgb(28, 144, 237);
-  border-radius: 5px
+  border-radius: 5px;
+  font-size: 0.875em;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
 .light-mode .hljs-comment,
 .light-mode .hljs-quote {

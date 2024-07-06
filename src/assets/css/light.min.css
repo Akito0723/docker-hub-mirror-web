@@ -1,8 +1,9 @@
-.dark-mode h1,
-.dark-mode h2,
-.dark-mode h3 {
-    color: #383a42 !important;
-}
+/*.light-mode h1,*/
+/*.light-mode h2,*/
+/*.light-mode h3,*/
+/*.light-mode p {*/
+/*    color: #ece6ec !important;*/
+/*}*/
 
 
 .light-mode .el-container {
