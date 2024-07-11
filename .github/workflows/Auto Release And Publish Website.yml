@@ -9,6 +9,9 @@ jobs:
     outputs:
       release-version: ${{ steps.next-latest-release.outputs.v-version }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@main
+
       - name: Get next version
         id: next-latest-release
         uses: reecetech/version-increment@2024.4.4
