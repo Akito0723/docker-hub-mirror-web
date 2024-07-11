@@ -1,33 +1,51 @@
-name: Auto Release And Publish Website
+name: Auto Release And Deploy Website
 
 on:
   - workflow_dispatch
 
 jobs:
-  call-shared-workflow:
-    uses: Akito0723/auto-deploy/.github/workflows/Auto Release And Publish Website for node.yml@main
+  get-next-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get next version
+        id: next-latest-release
+        uses: reecetech/version-increment@2024.4.4
+        with:
+          scheme: calver
+    outputs:
+      release-version:
+        value: "${{ steps.next-latest-release.outputs.v-version }}"
+
+  auto-build-with-yarn:
+    needs: get-next-version
+    uses: Akito0723/auto-deploy/.github/workflows/Auto Build With yarn.yml@main
     with:
       node-version: "16.20.0"
       yarn-version: "1.22.19"
-      deploy-path: "/var/www/docker-hub-mirror-web"
+      tgz-file-name: ${{ needs.get-next-version.outputs.release-version }}.tgz
 
-  build-and-deploy:
-    runs-on: ubuntu-latest
-      - steps:
-        # 发布 Release
-        - name: Create Release
-          id: create_release
-          uses: softprops/action-gh-release@v2
-          with:
-            # 是否是草稿
-            draft: false
-            # 是否是预发布
-            prerelease: false
-            tag_name: ${{ steps.next-latest-release.outputs.v-version }}
-            name: Release ${{ steps.next-latest-release.outputs.v-version }}
-            token: ${{ secrets.GITHUB_TOKEN }}
-            # 要上传的文件
-            files: ./release-${{ steps.next-latest-release.outputs.v-version }}.tgz
+
+#
+#  build-and-deploy:
+#    needs: call-shared-workflow
+#    runs-on: ubuntu-latest
+#      - steps:
+#        - run: ls
+#        - run: echo
+#        # 发布 Release
+#        - name: Create Release
+#          id: create_release
+#          uses: softprops/action-gh-release@v2
+#          with:
+#            # 是否是草稿
+#            draft: false
+#            # 是否是预发布
+#            prerelease: false
+#            tag_name: ${{ steps.next-latest-release.outputs.v-version }}
+#            name: Release ${{ steps.next-latest-release.outputs.v-version }}
+#            token: ${{ secrets.GITHUB_TOKEN }}
+#            # 要上传的文件
+#            files: ./release-${{ steps.next-latest-release.outputs.v-version }}.tgz
 
 
 
