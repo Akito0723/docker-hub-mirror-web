@@ -23,6 +23,8 @@ jobs:
           yarn-version: "1.22.19"
           tgz-file-name: "release-${{ steps.next-latest-release.outputs.v-version }}.tgz"
 
+      - run: ls
+
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v2
