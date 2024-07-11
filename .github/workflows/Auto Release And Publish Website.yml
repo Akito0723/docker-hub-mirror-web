@@ -10,6 +10,24 @@ jobs:
       node-version: "16.20.0"
       yarn-version: "1.22.19"
       deploy-path: "/var/www/docker-hub-mirror-web"
-    secrets:
-      RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-and-deploy:
+    runs-on: ubuntu-latest
+      - steps:
+        # 发布 Release
+        - name: Create Release
+          id: create_release
+          uses: softprops/action-gh-release@v2
+          with:
+            # 是否是草稿
+            draft: false
+            # 是否是预发布
+            prerelease: false
+            tag_name: ${{ steps.next-latest-release.outputs.v-version }}
+            name: Release ${{ steps.next-latest-release.outputs.v-version }}
+            token: ${{ secrets.GITHUB_TOKEN }}
+            # 要上传的文件
+            files: ./release-${{ steps.next-latest-release.outputs.v-version }}.tgz
+
+
 
