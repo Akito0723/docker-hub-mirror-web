@@ -41,6 +41,6 @@ jobs:
         id: auto-deploy
         uses: Akito0723/auto-deploy/.github/workflows/Auto Deploy Website.yml@main
         with:
-          tgz-file-name: release-${{ needs.get-next-version.outputs.release-version }}.tgz
+          tgz-file-name: release-${{ steps.next-latest-release.outputs.v-version }}.tgz
           deploy-path: "/var/www/docker-hub-mirror-web"
 
