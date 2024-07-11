@@ -4,7 +4,7 @@ on:
   - workflow_dispatch
 
 jobs:
-  Build-Release-Deploy:
+  build-release-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
