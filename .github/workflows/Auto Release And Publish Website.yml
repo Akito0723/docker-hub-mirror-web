@@ -50,4 +50,4 @@ jobs:
     uses: Akito0723/auto-deploy/.github/workflows/Auto Deploy Website.yml@main
     with:
       deploy-path: "/var/www/test"
-      tgz-file-name: release-${{ needs.build-and-release.outputs.tgz-file-name }}.tgz
+      tgz-file-name: ${{ needs.build-and-release.outputs.tgz-file-name }}
