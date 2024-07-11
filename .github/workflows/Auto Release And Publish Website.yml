@@ -1,5 +1,4 @@
-# 自动部署的名称 
-name: Auto Release And Publish Website 
+name: Auto Release And Publish Website
 on:
   - workflow_dispatch
 
@@ -8,7 +7,6 @@ permissions:
 
 jobs:
   build-and-deploy:
-    # 运行环境，告诉它运行在什么环境
     runs-on: ubuntu-latest 
     steps:
       # Checkout代码
@@ -27,13 +25,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16.20.0
-          cache: 'yarn'
 
-
-      - run: | 
+      - run: |
+          npm install -g yarn@1.22.19
           yarn install
           yarn build
-        # run: tar --exclude='.*' --exclude='*.txt' -czvf release-${{ steps.next-latest-release.outputs.v-version }}.tgz *
+          tar -czvf release-${{ steps.next-latest-release.outputs.v-version }}.tgz dist
 
 
       # 发布 Release
@@ -47,7 +44,7 @@ jobs:
           prerelease: false
           tag_name: ${{ steps.next-latest-release.outputs.v-version }}
           name: Release ${{ steps.next-latest-release.outputs.v-version }}
-          token: ${{ secrets.RELEASE_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           # 要上传的文件
           files: ./release-${{ steps.next-latest-release.outputs.v-version }}.tgz
 
@@ -62,7 +59,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           source: "./release-${{ steps.next-latest-release.outputs.v-version }}.tgz"
-          target: "/var/www/home"
+          target: "/var/www/docker-hub-mirror-web"
 
       # 解压文件
       - name: ssh Deploy
@@ -75,7 +72,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd /var/www/home
+            cd /var/www/docker-hub-mirror-web
             mkdir -p dist
             rm -f release.tgz
             mv release-${{ steps.next-latest-release.outputs.v-version }}.tgz release.tgz
