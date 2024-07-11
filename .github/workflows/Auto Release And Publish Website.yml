@@ -4,7 +4,7 @@ on:
   - workflow_dispatch
 
 jobs:
-  get-next-version:
+  Build-Release-Deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -15,35 +15,28 @@ jobs:
         uses: reecetech/version-increment@2024.4.4
         with:
           scheme: calver
-    outputs:
-      release-version: ${{ steps.next-latest-release.outputs.v-version }}
 
-  auto-build-with-yarn:
-    needs: get-next-version
-    uses: Akito0723/auto-deploy/.github/workflows/Auto Build With yarn.yml@main
-    with:
-      node-version: "16.20.0"
-      yarn-version: "1.22.19"
-      tgz-file-name: "release-${{ needs.get-next-version.outputs.release-version }}.tgz"
+      - name: Build With yarn
+        uses: Akito0723/auto-deploy/.github/workflows/Auto Build With yarn.yml@main
+        with:
+          node-version: "16.20.0"
+          yarn-version: "1.22.19"
+          tgz-file-name: "release-${{ steps.next-latest-release.outputs.v-version }}.tgz"
 
-  create-release:
-    needs: [get-next-version, auto-build-with-yarn]
-    runs-on: ubuntu-latest
-    steps:
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v2
         with:
           draft: false
           prerelease: false
-          tag_name: ${{ needs.get-next-version.outputs.release-version }}
-          name: Release ${{ needs.get-next-version.outputs.release-version }}
+          tag_name: ${{ steps.next-latest-release.outputs.v-version }}
+          name: Release ${{ steps.next-latest-release.outputs.v-version }}
           # 要上传的文件
-          files: ./release-${{ needs.get-next-version.outputs.release-version }}.tgz
+          files: ./release-${{ steps.next-latest-release.outputs.v-version }}.tgz
 
-  auto-deploy:
-    needs: [get-next-version, auto-build-with-yarn]
-    uses: Akito0723/auto-deploy/.github/workflows/Auto Deploy Website.yml@main
-    with:
-      tgz-file-name: release-${{ needs.get-next-version.outputs.release-version }}.tgz
-      deploy-path: "/var/www/docker-hub-mirror-web"
+      - name: Auto Deploy
+        uses: Akito0723/auto-deploy/.github/workflows/Auto Deploy Website.yml@main
+        with:
+          tgz-file-name: release-${{ needs.get-next-version.outputs.release-version }}.tgz
+          deploy-path: "/var/www/docker-hub-mirror-web"
+
