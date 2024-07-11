@@ -17,6 +17,7 @@ jobs:
           scheme: calver
 
       - name: Build With yarn
+        id: build-with-yan
         uses: Akito0723/auto-deploy/.github/workflows/Auto Build With yarn.yml@main
         with:
           node-version: "16.20.0"
@@ -37,6 +38,7 @@ jobs:
           files: ./release-${{ steps.next-latest-release.outputs.v-version }}.tgz
 
       - name: Auto Deploy
+        id: auto-deploy
         uses: Akito0723/auto-deploy/.github/workflows/Auto Deploy Website.yml@main
         with:
           tgz-file-name: release-${{ needs.get-next-version.outputs.release-version }}.tgz
