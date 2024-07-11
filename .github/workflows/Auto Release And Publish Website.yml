@@ -42,10 +42,12 @@ jobs:
         with:
           name: release-${{ steps.next-latest-release.outputs.v-version }}.tgz
           path: ./release-${{ steps.next-latest-release.outputs.v-version }}.tgz
+    outputs:
+      tgz-file-name: release-${{ steps.next-latest-release.outputs.v-version }}.tgz
 
   auto-deploy:
     needs: build-and-release
     uses: Akito0723/auto-deploy/.github/workflows/Auto Deploy Website.yml@main
     with:
       deploy-path: "/var/www/test"
-      tgz-file-name: release-${{ steps.next-latest-release.outputs.v-version }}.tgz
+      tgz-file-name: release-${{ needs.build-and-release.outputs.tgz-file-name }}.tgz
