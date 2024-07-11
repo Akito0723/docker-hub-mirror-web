@@ -41,7 +41,7 @@ jobs:
 
   auto-deploy:
     needs: [get-next-version, auto-build-with-yarn]
-    uses: Akito0723/auto-deploy/.github/workflows/Auto Build With yarn.yml@main
+    uses: Akito0723/auto-deploy/.github/workflows/Auto Deploy Website.yml@main
     with:
       tgz-file-name: release-${{ needs.get-next-version.outputs.release-version }}.tgz
       deploy-path: "/var/www/docker-hub-mirror-web"
