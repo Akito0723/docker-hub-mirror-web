@@ -26,25 +26,25 @@ jobs:
       yarn-version: "1.22.19"
       tgz-file-name: release-${{ needs.get-next-version.outputs.release-version }}.tgz
 
-  create-release:
-    needs: [get-next-version, auto-build-with-yarn]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Create Release
-        id: create_release
-        uses: softprops/action-gh-release@v2
-        with:
-          draft: false
-          prerelease: false
-          tag_name: ${{ needs.get-next-version.outputs.release-version }}
-          name: Release ${{ needs.get-next-version.outputs.release-version }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          # 要上传的文件
-          files: ./release-${{ needs.get-next-version.outputs.release-version }}.tgz
-
-  auto-deploy:
-    needs: [get-next-version, auto-build-with-yarn]
-    uses: Akito0723/auto-deploy/.github/workflows/Auto Deploy Website.yml@main
-    with:
-      tgz-file-name: release-${{ needs.get-next-version.outputs.release-version }}.tgz
-      deploy-path: "/var/www/docker-hub-mirror-web"
+#  create-release:
+#    needs: [get-next-version, auto-build-with-yarn]
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Create Release
+#        id: create_release
+#        uses: softprops/action-gh-release@v2
+#        with:
+#          draft: false
+#          prerelease: false
+#          tag_name: ${{ needs.get-next-version.outputs.release-version }}
+#          name: Release ${{ needs.get-next-version.outputs.release-version }}
+#          token: ${{ secrets.GITHUB_TOKEN }}
+#          # 要上传的文件
+#          files: ./release-${{ needs.get-next-version.outputs.release-version }}.tgz
+#
+#  auto-deploy:
+#    needs: [get-next-version, auto-build-with-yarn]
+#    uses: Akito0723/auto-deploy/.github/workflows/Auto Deploy Website.yml@main
+#    with:
+#      tgz-file-name: release-${{ needs.get-next-version.outputs.release-version }}.tgz
+#      deploy-path: "/var/www/docker-hub-mirror-web"
