@@ -38,7 +38,6 @@ jobs:
           prerelease: false
           tag_name: ${{ needs.get-next-version.outputs.release-version }}
           name: Release ${{ needs.get-next-version.outputs.release-version }}
-          token: ${{ secrets.GITHUB_TOKEN }}
           # 要上传的文件
           files: ./release-${{ needs.get-next-version.outputs.release-version }}.tgz
 
