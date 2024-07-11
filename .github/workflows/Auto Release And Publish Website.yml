@@ -10,6 +10,6 @@ jobs:
       node-version: "16.20.0"
       yarn-version: "1.22.19"
       deploy-path: "/var/www/docker-hub-mirror-web"
-      release-token: ${{ secrets.GITHUB_TOKEN }}
-
+    secrets:
+      RELEASE_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
