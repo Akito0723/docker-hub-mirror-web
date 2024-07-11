@@ -11,5 +11,5 @@ jobs:
       yarn-version: "1.22.19"
       deploy-path: "/var/www/docker-hub-mirror-web"
     secrets:
-      MY_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
