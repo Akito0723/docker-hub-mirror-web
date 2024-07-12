@@ -51,3 +51,8 @@ jobs:
     with:
       deploy-path: "/var/www/test"
       tgz-file-name: ${{ needs.build-and-release.outputs.tgz-file-name }}
+    secrets:
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_PORT: ${{ secrets.SSH_PORT }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
