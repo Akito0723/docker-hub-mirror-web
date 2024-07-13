@@ -37,22 +37,33 @@ jobs:
           name: Release ${{ steps.next-latest-release.outputs.v-version }}
           files: ./release-${{ steps.next-latest-release.outputs.v-version }}.tgz
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: release-${{ steps.next-latest-release.outputs.v-version }}.tgz
-          path: ./release-${{ steps.next-latest-release.outputs.v-version }}.tgz
-    outputs:
-      tgz-file-name: release-${{ steps.next-latest-release.outputs.v-version }}.tgz
 
-  auto-deploy:
-    needs: build-and-release
-    uses: Akito0723/auto-deploy/.github/workflows/Auto Deploy Website.yml@main
-    with:
-      deploy-path: "/var/www/docker-hub-mirror-web"
-      tgz-file-name: ${{ needs.build-and-release.outputs.tgz-file-name }}
-    secrets:
-      SSH_HOST: ${{ secrets.SSH_HOST }}
-      SSH_PORT: ${{ secrets.SSH_PORT }}
-      SSH_USER: ${{ secrets.SSH_USER }}
-      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: scp RELEASE
+        uses: appleboy/scp-action@master
+        with:
+          # 配置的服务器地址
+          host: ${{ secrets.SSH_HOST }}
+          # 配置的服务器用户名
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          source: ./release-${{ steps.next-latest-release.outputs.v-version }}.tgz
+          target: "/var/www/docker-hub-mirror-web"
+          overwrite: true
+
+      - name: ssh Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          # 配置的服务器地址
+          host: ${{ secrets.SSH_HOST }}
+          # 配置的服务器用户名
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd /var/www/docker-hub-mirror-web
+            mkdir -p dist
+            rm -f release.tgz
+            mv ./release-${{ steps.next-latest-release.outputs.v-version }}.tgz release.tgz
+            rm -rf dist/*
+            tar -xzf release.tgz -C ./
