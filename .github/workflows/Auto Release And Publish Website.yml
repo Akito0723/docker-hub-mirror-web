@@ -49,7 +49,7 @@ jobs:
     needs: build-and-release
     uses: Akito0723/auto-deploy/.github/workflows/Auto Deploy Website.yml@main
     with:
-      deploy-path: "/var/www/test"
+      deploy-path: "/var/www/docker-hub-mirror-web"
       tgz-file-name: ${{ needs.build-and-release.outputs.tgz-file-name }}
     secrets:
       SSH_HOST: ${{ secrets.SSH_HOST }}
