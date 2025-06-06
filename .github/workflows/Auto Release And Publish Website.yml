@@ -36,11 +36,3 @@ jobs:
           tag_name: ${{ steps.next-latest-release.outputs.v-version }}
           name: Release ${{ steps.next-latest-release.outputs.v-version }}
           files: ./release-${{ steps.next-latest-release.outputs.v-version }}.tgz
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: release-${{ steps.next-latest-release.outputs.v-version }}.tgz
-          path: ./release-${{ steps.next-latest-release.outputs.v-version }}.tgz
-    outputs:
-      tgz-file-name: release-${{ steps.next-latest-release.outputs.v-version }}.tgz
