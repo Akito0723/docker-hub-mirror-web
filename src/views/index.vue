@@ -232,7 +232,7 @@ docker rmi ${domain}/library/mysql:5.7`,
           });
     },
     getCFInfo() {
-      this.$axios.post("/cdn-cgi/trace")
+      this.$axios.get("/cdn-cgi/trace")
           .then(res => {
             if (res.data) {
               const lines = res.data.split('\n');
